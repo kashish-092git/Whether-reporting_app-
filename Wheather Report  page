@@ -1,0 +1,408 @@
+import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'wheather_model.dart';
+export 'wheather_model.dart';
+
+class WheatherWidget extends StatefulWidget {
+  const WheatherWidget({Key? key}) : super(key: key);
+
+  @override
+  _WheatherWidgetState createState() => _WheatherWidgetState();
+}
+
+class _WheatherWidgetState extends State<WheatherWidget> {
+  late WheatherModel _model;
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => WheatherModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primary,
+          automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () async {
+              context.pushNamed('Login');
+            },
+          ),
+          title: Text(
+            'Wheather',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Outfit',
+                  color: Colors.white,
+                  fontSize: 22,
+                ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 2,
+        ),
+        body: SafeArea(
+          top: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/jpeg;base64,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',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB8CAMAAACcwCSMAAAAqFBMVEX///8AfMQRl9b///2YzvBUtupmvevR5/cAesMAldYAbr4AitH5/P36//0AccAAdsLw9/oAkNQAhc8AY7kAa73DzOWq1vDf7fXL3/PA3PB2rNw1ltSr0uk/n9jI4/NMnNmCt+GPvuRbpNdWodlzst8zkdNno9i5z+hwmc9fk82vyORRiMfE1elimM6my+lIhcmNtNiGq9c6d8Glvt88q+V8wuvX4e5hhMWjoo07AAADd0lEQVRoge2Ya3eiMBCGUyN3CAlaI8VrtSpa74v7///ZDohI167VAvbsOfN8wUvg5R1mhiSEIAiCIAiCIAiCIAiCIMj/AE0g9GfE0zv4CW0u24Dk5LHeQczxXwJhASJ48R3yUPudwKqdMKyg80DzsmsZIJrJ16xAPkaZkp6V6p7vwLB6jzEfawthBP3AEOJs3n+EthSGeBv4kttc9oZvmbzQKpemZCTE0Mm+O6vsGQRxw6GVJv7K639MLv6amje6/f5oXGX0qffqxP6Trno0SQciyz/IPGvISUV9p/Pm5C597K3OWOTKria6WkWxn8Qxt+V0Mgtny0E7MUm5qOUxRLsScT6kxJ4vWNPVdd2Fw6wdu+xYNQPqThhpBKwKeg4lUpJ3t6k/ZbiNZexeeMGw4/urkXeUDypwDpdc5qUT+eYUakBLE8EeeIn1VQXafM0yVYg7BB+OzU0+uXtJ9gV26Qlvh+7T0bjO2HoxmSwXLtN1c58fpMXp58nSxbdmGnOXbQ88+UnOd0xvHLIhIAnpVxOrcsTjlulMJ2EYLt1Uu7HluQFTpu/s3HTK7kK5DUoSJ3zWSGrrlGpsmm9h8P+isT/3lWPljUsK+9R08+mts8OHaWP8MWT5UEDTKUt8kxbXyXfz/WIItXfTTItSiLsYliK+MtMcM02TQQjM7eUYSg9h7qszqlmlTOtk4/iY2XL//LwPTVfnl4NAZ3P+mYK4x6VdVJqSUE+a6OnafPuJ8eQms2qLw268EF4v+nahiXF3x0m6NMre4hcjc0al5cFbNSrcZ/bwlN31XRGkpO4N4Q59taA4nUGSszstcNF14ATtlywmbsfamzsnJoMgfkpE/moV0iY2pJv7SXpfYziObxXElaigc/fJXd51BvVPM7ieoharNnv91/vya/FjWcCxrhYUJzPdnH/rRGpHhcXn7LvimqJGxbQJb7D9v/rKFWUAjNcLisPkZUnun49R2lJUpeDSkVKHMdmx764ZCLqqFl86HJpbEnFyx/KTJmWmKn4Jb9V288CVFr99w43yVuw7KmGXDFrVb84VpX7rEoh31ARe0ixu5TiRoihRVP+SSFVi24rKS5q3Jw1LO171NpRWeetUmlSuhIap3IJa5xXsydpcu4His7fPoOl2yPUxFW1E03Qn5hoVyCIIgiAIgiAIgiAIgiBICfwBUJU3aNjon3wAAAAASUVORK5CYII=',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/png;base64,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',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ8AAAB6CAMAAACWTHHjAAABR1BMVEX/9O73Yg7/yD3pEiT/9+8XxQ51TKgBR///9vT+yTznAADpESb/+fT/9/H+yz0YzAD+8ugXxwD/7en08O/2XAD+wqf///gAOP8APv8AQ///+u5RaPv78O/pAA/pABXpABzwRBj1cRH/xC755bOw5KesuvVtQKPrTlD3fk39z19Zzk6MbbT63tr5ycbyqafxkZPwgYTvbXLuYF/4v7/zsq7vioXoPELsJCDuMx7zVBLyy8HmJi75exj6dwD4zqz61dH5nyf4sDL6kibkyjfUyTPHyy66xzKgyirV5KzvyTt1wyFXxhywyisWwC0VtUgTmoUMg6cKb8YIZ9MAXNitwuHzn5kEUuwUrWYWsVINc78TpHMPiKEiR+xGS9BdSr/IvNh+S5ZiM6ARkJTWyNmihrq8qsvk2d+xmsd9W6zvZE/p0FxYrJVucNqvtIlCAAAE2klEQVR4nO3a2XcaNxQHYDMMOBpm8ThTsRQYuwvTlsXGUGMatyxxTMEmDk7qLMVOqGOn2///XI2kYYb2oedIGPGg38k5eSL+zr26VwrHGxtrHVU04H8ifXyRPr5IH1+kjy/Sxxfp44v08UX6+CJ9fJE+vkgfX6SPL9LHF+nji/TxRfr4sgKfoetQRzFYPvywPhWx1Eq1trdfrx80WIAP6DMg7DS/91xN0wqFoqvVdIZ/5IF8ak7f6ux7rULBjZOktOb6+HRY2fO0uY341qR+hgHzTU8ruqkILrU2PkM3ap62UDkU9Nda9BfNa/Mw0Lm4cK2jnXa7HYs5n4n3GfAHL5yIOLIhGI1wn4p6u18spogNFW4nxK2BT92AjSeFVFC7RZx4n6qre66bor6d2H8i2KdvH2jBvC7qHMeJxXaPf/xJpE/vPCnQzh5FbQjW7SmKCcwvvnwkzgercTK2qVbk3Dm7/R4wTRMoKAJ9KmySrRJtrRPr98whABgn1PcINigvMhe7XcUMaEJ9/l5puYu9dWJdYAY8ILh+elVbPHqos4oZqZz59OTZ6WDwsxgfmlxSvfncHvcinR2ejs4SCRv9+UqETzW2DouLvL4ZFA8Mz0dIRiPGBw+KeHCPgpXSIzyggJNRwrYF+2BNI2cv5Pm9BSYYjhKLEeHTq+S94lLeMVkqwNfNK2fblh8BPkP1fF8q3qbVI3MLwLOzOc5KjJ9fvJhcvnyVW7lP/4V0d2eBp4BBUDzbGl9MrtLpTCab/nrlPr1SiI4uOntkpZxhnY0a+3qSzWSzm34yK/cZsI5XS5wuFsozz8jQ2tabS2oT48uR4Qi62yW8p7S31vhtOtSJ8EGvGK4Wp08ujWFQvXdXUd3mdOU+2CHDQWeXvANMevasXzMhb3p9c5MsvV+tL5+r43uXDIdDDh8YWWQ0Juk57ib5IYmyap/eIc8CuphN/JA6J1slcZkNdTSr9sF9LbJbeuQ9gM+ebV9mAt2HpCCfsY2fVfT09U186ZJbw35LeVfJSGbvWX4Ws09v4N3cig7HKZ4N6zd69q6D4pVms2S5fLvS7091vJvJ7sO7BSgm3nz2G8oLTt4s+fE2D3M5ph/F6jO2iv4XQPTq6OFHy7l/+uzxSzIb17R2ybv7nMpcBtYPwkZkOo7xbiHlC7ob8Mr3EPWV6bt7Ll8dH792eLOh8vndHS+Oxie2tnL78p47fxng6QAAD6/1gnSXHr07yPkAZvy42omH04t3s3mCV8t4mgm7W7qDfDpmn97Uwunt4rtjgE/fBT59U8L7xFs9Zh/cK4TLGU+vQtpLLjZSvt/zvDp2H35akfHYpc8+vPs2w9M3u1/ClxOsvvj84eyQ7XKKfReZcHjLLN9HLsdn6Br+ep5eHv7yG+D2TjLzm6N0y76VeX25Srid6fbD/xu3pmF7l3H6WH165V/jq9CnS3o6n96PLM+pZfmqER9++g3xu+95ej69pTuBPnr7Ep8S+BL264jvVqSvprmui9aLg9IzAfBfzijvfF+W+O6Z3wRL8DUOPZQ/vvHzrZ8/v/Pz1+d+/i77Wcp4ML8Ptv1sRZLzoz72k8dZCk/+fglnpI8v0scX6eOL9PFF+vgifXyRPr5IH1+kjy/Sxxfp44v08UX6+CJ9fJE+vkgfX9R/AHWJmaNgICO0AAAAAElFTkSuQmCC',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/png;base64,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',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/jpeg;base64,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',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'https://picsum.photos/seed/602/600',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'https://picsum.photos/seed/903/600',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAHoAowMBIgACEQEDEQH/xAAaAAEBAQEBAQEAAAAAAAAAAAAAAQIDBQQH/8QALhAAAgEDAwMCBQMFAAAAAAAAAAECAxEhBBIxQVFhBRMUInGBkSNi0QYHFjJC/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD8PAIUUAAAABCkKABCgQoAAgRQAAAhQQCkQKAAAAEKAAAAAEAArt0KIAAAAAAACyViG003kzK13YCAEIKAQCggKBSAgoKi2QGQa2kfAEBqKTWcH26KOnr/AKNVWqN/JJvD8AfAFk9KroqME5bnjnwRaag7OLla/wBgPP2ssLqScVdrwfu/+F/299Q/pmlqNJ6j8LKNPd7jmnU3dpR5b6H5Br9FHQ6h7d1m3ZPtfBR8MNusq2lCSxxBHKrpatPc9krRZ7Sq6eNOPt1lTlLtDozhOFeCtH9SGc9QPFLbFz0KkJQfzU47P2nzyjTk8cEHzA1OO2RkAQoSAAoKMgpbEBcmzNjUQpnkwzru2iW1u7A4li7NPqdJe2sWv5NRpU3KzlYqPU0HqVFUn8YlUTW2Scbtrp9T6dFp9PrI1VpajoQcluh0t4/g8X4Z7PchKLj9eD7fTp7JSpppqfKUsgdNXKekqyo06kpRi7bspM0vU51dPavpoVYr/pnP1OrU27HNOlLKTeUeb7slDZ0vcD0K1WjXlTjOnKGEotSwI06lHcoSjK/Tseb7jx4LHUVIN2lz3A+tzqt2qKyufJXSjN7X9g685csjipttt5Iqb0/9iPbJ34G1cItsAZsugLaxnqBboEwUIyLgAaTKrdzAA7RsZqJcp47HNXZbPswqFuHFo70vbcfmS+4HFTklZN27GqdRxluXKN14QVnT+5japWSw+oFq1J1Zbpu5gNOLsQACp7XdECBdzXUhpr5U1kCO6y0RyZuLdmjLXYKmQikCFgABABgAF5AA0nkrlIwbjIKjmyxkr5/KErPqYYR9ELWxtt5MTteykkjkArbjJ5w13uRpmSxk4vAFUWyxhnP4Ne7zyjkEbkkMrqYCdgrplryc3hl3MchBPuLogAFAKIACBYAFAAEAAAAQoAEKgAAAAhQAIALyCACggKKAiEFIAAAAAMAAAAKwiAAUgAoIAKQFAgAAoAA//9k=',
+                          width: 100,
+                          height: 114,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                      child: Text(
+                        'Description: ',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 15,
+                            ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                      child: FutureBuilder<ApiCallResponse>(
+                        future: TaskCall.call(),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          final textTaskResponse = snapshot.data!;
+                          return Text(
+                            getJsonField(
+                              textTaskResponse.jsonBody,
+                              r'''$.weather_desc''',
+                            ).toString(),
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                      child: Text(
+                        'Temperature: ',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 15,
+                            ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                      child: FutureBuilder<ApiCallResponse>(
+                        future: TaskCall.call(),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          final textTaskResponse = snapshot.data!;
+                          return Text(
+                            getJsonField(
+                              textTaskResponse.jsonBody,
+                              r'''$.temp_city''',
+                            ).toString(),
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                      child: Text(
+                        'Humidity: ',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 15,
+                            ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(35, 0, 0, 0),
+                      child: FutureBuilder<ApiCallResponse>(
+                        future: TaskCall.call(),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          final textTaskResponse = snapshot.data!;
+                          return Text(
+                            getJsonField(
+                              textTaskResponse.jsonBody,
+                              r'''$.hmdt''',
+                            ).toString(),
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                      child: Text(
+                        'Wind Speed: ',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 15,
+                            ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                      child: FutureBuilder<ApiCallResponse>(
+                        future: TaskCall.call(),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          final textTaskResponse = snapshot.data!;
+                          return Text(
+                            getJsonField(
+                              textTaskResponse.jsonBody,
+                              r'''$.wind_spd''',
+                            ).toString(),
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
